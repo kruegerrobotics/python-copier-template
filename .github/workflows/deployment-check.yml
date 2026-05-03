@@ -1,10 +1,8 @@
 ---
-# github action to check if the deployment is successful or not
-# it should use copier from the repo
 name: Deployment Check
 on:
   workflow_run:
-    workflows: [Deployment]
+    workflows: [Pre-commit checks]
     types: [completed]
 jobs:
   deployment-check:
