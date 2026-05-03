@@ -1,0 +1,24 @@
+---
+# github action to check if the deployment is successful or not
+# it should use copier from the repo
+name: Deployment Check
+on:
+  workflow_run:
+    workflows: [Deployment]
+    types: [completed]
+jobs:
+  deployment-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - name: Install dependencies
+        run: pip install copier pre-commit
+      - name: Use copier to copy the deployment check script
+        # run copier from this github repo to copy the deployment
+        # check script to the current directory
+        run: copier copy
+          https://github.com/kruegerrobotics/python-copier-template.git
+          deployment-check --trust --defaults
