@@ -1,6 +1,6 @@
 [project]
 name = "{{ project_slug }}"
-requires-python = ">={{ python_version }}"
+requires-python = "{{ python_version }}"
 
 [tool.ruff]
 line-length = 120
