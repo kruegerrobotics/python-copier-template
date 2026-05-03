@@ -1,0 +1,65 @@
+---
+
+# Copier template configuration
+# https://copier.readthedocs.io/
+_min_copier_version: 9.11.0
+_subdirectory: copier_templates
+#_answers_file: .copier-answers.yml
+# _skip_if_exists:
+  # - .git/
+# Questions for the user
+project_name:
+  type: str
+  help: What is your project name?
+  default: My Python Project
+project_slug:
+  type: str
+  help: Project directory name (slug)
+  default: "{{ project_name.lower().replace(' ', '-').replace('_', '-') }}"
+app_name:
+  type: str
+  help: Application name
+  default: MyApp
+package_name:
+  type: str
+  help: Python package name
+  default: "{{ app_name.lower().replace(' ', '_').replace('-', '_') }}"
+python_version:
+  type: str
+  help: Python version to target
+  default: '3.13'
+  choices:
+    - '3.14'
+    - '3.13'
+    - '3.12'
+    - '3.11'
+    - '3.10'
+# Template settings
+_templates_suffix: ''
+_exclude:
+  - copier.yml
+  - copier.yaml
+  - ~*
+  - '*.py[co]'
+  - __pycache__
+  - .git
+  - .DS_Store
+# Post-generation tasks
+_tasks:
+  # Only run on initial copy (when no git repo exists yet)
+  - command: |
+      if [ ! -d .git ]; then
+        git init -b main
+        echo "✨ Git repository initialized with main branch"
+      else
+        echo "📦 Git repository already exists, skipping initialization"
+      fi
+  - command: |
+      if [ -d .git ] && ! git rev-parse HEAD >/dev/null 2>&1; then
+        git add .
+        git commit -m "Initial commit from python-code-quality-tools template"
+        # git checkout -b initial-setup
+        pre-commit install
+        echo "✅ Initial commit created on initial-setup branch"
+        echo "Next steps: cd into your project and start coding!"
+      fi

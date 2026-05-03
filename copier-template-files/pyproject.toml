@@ -1,0 +1,33 @@
+[project]
+name = "{{ project_slug }}"
+requires-python = ">={{ python_version }}"
+
+[tool.ruff]
+line-length = 120
+target-version = "py{{ python_version.replace('.', '') }}"
+fix = true
+show-fixes = true
+
+[tool.ruff.lint]
+# Select most commonly useful rule sets
+select = [
+    "E",  # pycodestyle
+    "F",  # pyflakes
+    "B",  # flake8-bugbear
+    "I",  # isort (import sorting)
+    "N",  # pep8-naming
+    "UP", # pyupgrade
+    "C4", # flake8-comprehensions
+    "T20", # flake8-print
+    "SIM", # flake8-simplify
+    "RUF" # Ruff-specific rules
+]
+# Optionally ignore certain noisy or unhelpful rules
+ignore = [
+    "B008",  # Do not perform function calls in argument defaults
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
